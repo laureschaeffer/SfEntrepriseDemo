@@ -1,0 +1,15 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Liste des entreprises{% endblock %}
+
+{% block body %}
+
+    <h1>Liste des entreprises</h1>
+
+    {% for entreprise in entreprises %}
+    {# appelle implicitement le getter de cp et ville, la raison sociale est dans la méthode toString()  #}
+    <a href="{{ path('show_entreprise', {'id' : entreprise.id}) }}">{{ entreprise ~ ' (' ~ entreprise.cp ~ ' ' ~ entreprise.ville ~ ')'}} </a> <br>
+
+    {% endfor %}
+
+{% endblock %}
