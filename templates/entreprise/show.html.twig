@@ -1,3 +1,5 @@
+{# detail d'une entreprise  #}
+
 {% extends 'base.html.twig' %}
 
 {% block title %}Détail d'une entreprise{% endblock %}
@@ -8,7 +10,7 @@
 
     <h2> {{ entreprise }} </h2>
     <p>
-        Adresse: {{ entreprise.adresseComplete }}
+        Adresse: {{ entreprise.adresseComplete }} <br>
         {# format de date | date() #}
         Date de création : {{ entreprise.dateCreation | date("d.m.Y")}}
     </p>

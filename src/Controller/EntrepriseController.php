@@ -2,9 +2,12 @@
 
 namespace App\Controller;
 
+//appelle toutes les classes dont il a besoin
 use App\Entity\Entreprise;
+use App\Form\EntrepriseType;
 use App\Repository\EntrepriseRepository;
 use Doctrine\ORM\EntityManagerInterface;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -24,6 +27,43 @@ class EntrepriseController extends AbstractController
         ]);
     }
 
+    //formulaire ajout ou modification d'une entreprise
+    #[Route('/entreprise/new', name: 'new_entreprise')]
+    #[Route('/entreprise/{id}/edit', name: 'edit_entreprise')]
+    public function new_edit(Entreprise $entreprise = null, Request $request, EntityManagerInterface $entityManager): Response
+    {
+        //si l'entreprise n'a pas été trouvé, on en crée une nouvelle, sinon ça veut dire qu'on est sur un formulaire de modification
+        if(!$entreprise){
+            $entreprise = new Entreprise();
+
+        }
+
+        
+        //crée le formulaire
+        $form = $this->createForm(EntrepriseType::class, $entreprise);
+
+        //prend en charge le formulaire
+        $form->handleRequest($request);
+
+        //si le form a été soumis et qu'il est valide
+        if($form->isSubmitted() && $form->isValid() ){
+            $entreprise = $form->getData();
+
+            $entityManager->persist($entreprise); //prepare PDO
+            $entityManager->flush(); //execute PDO
+
+            //retourne à la liste des entreprises
+            return $this->redirectToRoute('app_entreprise');
+        }
+
+        //renvoie la vue
+        return $this->render('entreprise/new.html.twig', [
+            'formAddEntreprise' => $form,
+            //s'il reçoit l'id, il le renvoie et donc on est sur la modification, sinon il renvoie false et on est sur l'ajout
+            'edit' => $entreprise->getId()
+        ]);
+    }
+    
     //pour le détail d'une entreprise
     #[Route('/entreprise/{id}', name: 'show_entreprise')]
     public function show(Entreprise $entreprise) : Response 
@@ -34,4 +74,9 @@ class EntrepriseController extends AbstractController
             'entreprise' => $entreprise
         ]);
     }
+
+
+
+
+
 }

@@ -8,8 +8,13 @@
 <div class="example-wrapper">
     <h1>Liste des employés</h1>
 
+    <a href="{{ path('new_employe') }}">Ajouter un employé</a>
+    <br>
+
     {% for employe in employes %}
-    <a href=" {{ path('show_employe', {'id':employe.id})}} ">{{ employe }} </a>  {{ employe.entreprise }} <br>
+    <a href=" {{ path('show_employe', {'id':employe.id})}} ">{{ employe }} </a>  {{ employe.entreprise }} 
+    <a class="btn btn-warning" href="{{ path('edit_employe', {'id': employe.id}) }}">Edit</a>
+    <br>
     {% endfor %}
 
 </div>

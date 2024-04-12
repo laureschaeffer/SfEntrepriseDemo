@@ -1,0 +1,40 @@
+{# ajout d'une entreprise  #}
+
+{% extends 'base.html.twig' %}
+
+{% block title %}Ajout d'une entreprise{% endblock %}
+
+{% block body %}
+
+    {# s'il recoit edit alors c'est une modification #}
+    {% if edit %}
+        <h1>Modifier l'entreprise</h1>
+        
+    {% else %}
+        <h1>Ajouter une entreprise</h1>
+    {% endif %}
+
+    {# recupere le formulaire  #}
+    {# {{ form(formAddEntreprise) }} #}
+
+    {# possibilité de detailler #}
+    {# rappel qu'on lit implicitement formAddEntreprise->get...()  #}
+    {{ form_start(formAddEntreprise) }}
+    {{ form_row(formAddEntreprise.raisonSociale) }}
+    {{ form_row(formAddEntreprise.dateCreation) }}
+
+    <div class="row">
+        <div class="col-sm">
+            {{ form_row(formAddEntreprise.adresse) }}
+        </div>
+        <div class="col-sm">
+            {{ form_row(formAddEntreprise.cp) }}
+        </div>
+        <div class="col-sm">
+            {{ form_row(formAddEntreprise.ville) }}
+        </div>
+    </div>
+        {{ form_row(formAddEntreprise.Valider) }}
+    {{ form_end(formAddEntreprise) }}
+
+{% endblock %}
