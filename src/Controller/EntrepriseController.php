@@ -64,6 +64,17 @@ class EntrepriseController extends AbstractController
         ]);
     }
     
+    //supprimer entreprise: tous ses employés sont supprimés également 'en cascade' (choix au début dans sa construction)
+    #[Route('/entreprise/{id}/delete', name: 'delete_entreprise')]
+    public function delete(Entreprise $entreprise, EntityManagerInterface $entityManager)
+    {
+        $entityManager->remove($entreprise); //prepare ce qu'il faut pour la requete
+        $entityManager->flush(); //execute
+
+        // redirection
+        return $this->redirectToRoute('app_entreprise');
+    }
+
     //pour le détail d'une entreprise
     #[Route('/entreprise/{id}', name: 'show_entreprise')]
     public function show(Entreprise $entreprise) : Response 

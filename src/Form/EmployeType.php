@@ -41,6 +41,7 @@ class EmployeType extends AbstractType
                 ]
             ])
             ->add('ville', TextType::class, [
+                'required' => false, //nullable dans la bdd
                 'attr' => [
                     'class' => 'form-control'
                 ]
